@@ -1,5 +1,4 @@
 import 'package:eccomerceapp/screens/home/home_view.dart';
-import 'package:eccomerceapp/screens/home_old/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
