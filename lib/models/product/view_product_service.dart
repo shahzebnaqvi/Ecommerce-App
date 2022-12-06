@@ -5,7 +5,8 @@ class ProductViewdata {
   bool? success;
   int? status;
 
-  ProductViewdata({this.data, this.links, this.meta, this.success, this.status});
+  ProductViewdata(
+      {this.data, this.links, this.meta, this.success, this.status});
 
   ProductViewdata.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {

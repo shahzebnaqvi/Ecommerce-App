@@ -1,4 +1,6 @@
 import 'package:eccomerceapp/screens/home/homecomponents/home_headings.dart';
+import 'package:eccomerceapp/services/constant.dart';
+import 'package:eccomerceapp/services/product/view_product_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -18,10 +20,33 @@ class Products extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
-              ProductCard()
+              Container(
+                height: 200,
+                child: FutureBuilder(
+                    future: getproducts(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.data == null) {
+                        // print("object  :null data  ${snapshot.data}");
+                        return Container();
+                      } else {
+                        // print(snapshot.data.featurespod);
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            // itemCount: 2,
+                            itemCount: snapshot.data.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ProductCard(
+                                  productimage:
+                                      "${baseurlimages}${snapshot.data.data[index].thumbnailImage}",
+                                  price:
+                                      "${snapshot.data.data[index].mainPrice}",
+                                  producttitle:
+                                      "${snapshot.data.data[index].name}");
+                            });
+                      }
+                    }),
+              ),
             ],
           ),
         )
@@ -31,14 +56,19 @@ class Products extends StatelessWidget {
 }
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({
-    Key? key,
-    this.width = 140,
-    this.aspectRetio = 1.02,
-  }) : super(key: key);
+  const ProductCard(
+      {Key? key,
+      this.width = 140,
+      this.aspectRetio = 1.02,
+      required this.productimage,
+      required this.price,
+      required this.producttitle})
+      : super(key: key);
 
   final double width, aspectRetio;
-
+  final String productimage;
+  final String price;
+  final String producttitle;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -58,12 +88,16 @@ class ProductCard extends StatelessWidget {
                     color: Colors.red.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Image.asset("assets/images/Image Banner 2.png"),
+                  child: Image.network(productimage, errorBuilder:
+                      (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                    return const Text('😢');
+                  }),
                 ),
               ),
               const SizedBox(height: 10),
               Text(
-                "sasa",
+                "${producttitle}",
                 style: TextStyle(color: Colors.black),
                 maxLines: 2,
               ),
@@ -71,7 +105,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "\$2500",
+                    "\$${price}",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,

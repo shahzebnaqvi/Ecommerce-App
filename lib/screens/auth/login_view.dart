@@ -1,5 +1,3 @@
-
-
 import 'package:eccomerceapp/screens/home/home_view.dart';
 import 'package:eccomerceapp/services/auth/login_service.dart';
 import 'package:eccomerceapp/theme/color.dart';
@@ -22,7 +20,8 @@ class _LoginState extends State<Login> {
     // TODO: implement initState
     super.initState();
   }
-bool loading = false;
+
+  bool loading = false;
   bool _isObscure = true;
 
   @override
@@ -41,11 +40,9 @@ bool loading = false;
                 Container(
                   height: MediaQuery.of(context).size.width * 0.15,
                 ),
-              
                 Container(
                   height: MediaQuery.of(context).size.width * 0.0105,
                 ),
-             
                 Text(
                   'Sigin',
                   style: theme.bodyText1!.copyWith(
@@ -60,8 +57,7 @@ bool loading = false;
                         .copyWith(fontSize: 13, fontWeight: FontWeight.w500),
                   ),
                 ),
-        
-                     TextField(
+                TextField(
                   controller: login_email,
                   style: theme.bodyText1!.copyWith(
                       color: textFieldfont,
@@ -69,7 +65,6 @@ bool loading = false;
                       fontSize: 13,
                       fontWeight: FontWeight.w500),
                   decoration: InputDecoration(
-                    
                       prefixIcon: Icon(
                         Icons.email,
                         color: primaryColor,
@@ -89,7 +84,6 @@ bool loading = false;
                           fontSize: 13,
                           fontWeight: FontWeight.w500)),
                 ),
-              
                 Padding(
                   padding: const EdgeInsets.only(top: 30.0, bottom: 8.0),
                   child: Text(
@@ -137,66 +131,72 @@ bool loading = false;
                           fontSize: 13,
                           fontWeight: FontWeight.w500)),
                 ),
-              
-              
-                loading ==false ?Container(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.03),
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(primaryColor)),
-                        onPressed: () { 
-                      setState(() {
-                                              loading = true;
+                loading == false
+                    ? Container(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.03),
+                        width: MediaQuery.of(context).size.width,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(primaryColor)),
+                            onPressed: () {
+                              setState(() {
+                                loading = true;
+                              });
 
-                      });
-                      // Loginfunc("ra@digitalgraphiks.pk", "Pakistan123").then((value) {
-                      Loginfunc("${login_email.text}", "${login_password.text}").then((value) {
-                        // print(value['status']);
-                        // print(value['result']);
-                      setState(() {
-                                loading = false;
+                              final bool emailValid = RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(login_email.text);
+                              // Loginfunc("ra@digitalgraphiks.pk", "Pakistan123").then((value) {
+                              if (emailValid) {
+                                Loginfunc("${login_email.text}",
+                                        "${login_password.text}")
+                                    .then((value) {
+                                  // print(value['status']);
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  if (value['result'] == true) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomeView()),
+                                    );
+                                  } else {
+                                    setState(() {
+                                      message = "${value['message']}";
+                                    });
+                                  }
+                                });
+                              } else {
+                                message = "Email Not Valid";
+                                setState(() {
+                                  loading = false;
+                                });
+                              }
 
-                      });                        
-                      if(value['result']==true){
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const HomeView()),
-                      );
-                        }
-                        else{
-                          setState(() {
-                            message="${value['message']}";
-                          });
-                        }
-                      });
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const HomeView()),
-                      // );
-                          
-                        },
-                        child: Text("login".toUpperCase(),
-                            style: theme.subtitle1!.copyWith(color: cardBg,
-                                fontSize: 20, fontWeight: FontWeight.w500)))):
-                Container(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.03),
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(primaryColor)),
-                        onPressed: () { 
-                      
-                     
-                   
-                          
-                        },
-                        child: CircularProgressIndicator())),
-                        
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(builder: (context) => const HomeView()),
+                              // );
+                            },
+                            child: Text("login".toUpperCase(),
+                                style: theme.subtitle1!.copyWith(
+                                    color: cardBg,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500))))
+                    : Container(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.03),
+                        width: MediaQuery.of(context).size.width,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(primaryColor)),
+                            onPressed: () {},
+                            child: CircularProgressIndicator())),
                 Center(
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -206,7 +206,8 @@ bool loading = false;
                       style: TextStyle(color: secondary),
                     ),
                   ),
-                ),Center(
+                ),
+                Center(
                   child: Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.08),
@@ -230,8 +231,10 @@ bool loading = false;
                     },
                     child: Text(
                       'Create Account',
-                      style: theme.subtitle1!
-                          .copyWith(fontSize: 20, fontWeight: FontWeight.w500,color: cardBg),
+                      style: theme.subtitle1!.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: cardBg),
                     ),
                   ),
                 ),
