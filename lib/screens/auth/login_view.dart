@@ -1,6 +1,7 @@
 
 
 import 'package:eccomerceapp/screens/home/home_view.dart';
+import 'package:eccomerceapp/services/auth/login_service.dart';
 import 'package:eccomerceapp/theme/color.dart';
 import 'package:flutter/material.dart';
 
@@ -14,14 +15,14 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController login_email = TextEditingController();
   TextEditingController login_password = TextEditingController();
-  String deviceTokenToSendPushNotification = '';
+  String message = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
-
+bool loading = false;
   bool _isObscure = true;
 
   @override
@@ -137,6 +138,49 @@ class _LoginState extends State<Login> {
                           fontWeight: FontWeight.w500)),
                 ),
               
+              
+                loading ==false ?Container(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.03),
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(primaryColor)),
+                        onPressed: () { 
+                      setState(() {
+                                              loading = true;
+
+                      });
+                      // Loginfunc("ra@digitalgraphiks.pk", "Pakistan123").then((value) {
+                      Loginfunc("${login_email.text}", "${login_password.text}").then((value) {
+                        // print(value['status']);
+                        // print(value['result']);
+                      setState(() {
+                                loading = false;
+
+                      });                        
+                      if(value['result']==true){
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HomeView()),
+                      );
+                        }
+                        else{
+                          setState(() {
+                            message="${value['message']}";
+                          });
+                        }
+                      });
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => const HomeView()),
+                      // );
+                          
+                        },
+                        child: Text("login".toUpperCase(),
+                            style: theme.subtitle1!.copyWith(color: cardBg,
+                                fontSize: 20, fontWeight: FontWeight.w500)))):
                 Container(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.03),
@@ -145,16 +189,24 @@ class _LoginState extends State<Login> {
                         style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all(primaryColor)),
-                        onPressed: () { Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const HomeView()),
-                      );
+                        onPressed: () { 
+                      
+                     
+                   
                           
                         },
-                        child: Text("login".toUpperCase(),
-                            style: theme.subtitle1!.copyWith(color: cardBg,
-                                fontSize: 20, fontWeight: FontWeight.w500)))),
+                        child: CircularProgressIndicator())),
+                        
                 Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.08),
+                    child: Text(
+                      '$message'.toUpperCase(),
+                      style: TextStyle(color: secondary),
+                    ),
+                  ),
+                ),Center(
                   child: Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.08),
@@ -171,10 +223,10 @@ class _LoginState extends State<Login> {
                         backgroundColor:
                             MaterialStateProperty.all(primaryColor1)),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const HomeView()),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => const HomeView()),
+                      // );
                     },
                     child: Text(
                       'Create Account',

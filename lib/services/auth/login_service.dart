@@ -9,6 +9,7 @@ Future Loginfunc(email, pass) async {
       'email': '$email',
       'password': '$pass',
     });
+    return(json.decode(response.body));
   } catch (e) {
 
     throw Exception('failed to login');
