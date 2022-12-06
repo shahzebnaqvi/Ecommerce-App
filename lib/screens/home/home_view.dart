@@ -1,4 +1,5 @@
 import 'package:eccomerceapp/screens/home/homecomponents/banner.dart';
+import 'package:eccomerceapp/screens/home/homecomponents/header.dart';
 import 'package:eccomerceapp/screens/home/homecomponents/products.dart';
 import 'package:eccomerceapp/screens/home/homecomponents/special_deals.dart';
 import 'package:eccomerceapp/screens/home/homecomponents/types.dart';
@@ -14,7 +15,7 @@ class HomeView extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [
+            children: [Header(),
               SizedBox(height: 20),
               BannerComp(),
               Typecate(),
@@ -64,17 +65,17 @@ class Bottombarcustomdesign extends StatelessWidget {
             children: [
               IconButton(
                   icon: SvgPicture.asset(
-                    "assets/icons/FlashIcon.svg",
+                    "assets/icons/ShopIcon.svg",
                     color:
                         'home' == selectedMenu ? Colors.red : inActiveIconColor,
                   ),
                   onPressed: () {}),
               IconButton(
-                icon: SvgPicture.asset("assets/icons/FlashIcon.svg"),
+                icon: SvgPicture.asset("assets/icons/HeartIcon.svg"),
                 onPressed: () {},
               ),
               IconButton(
-                icon: SvgPicture.asset("assets/icons/FlashIcon.svg"),
+                icon: SvgPicture.asset("assets/icons/ChatbubbleIcon.svg"),
                 onPressed: () {},
               ),
               IconButton(

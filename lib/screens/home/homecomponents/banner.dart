@@ -1,3 +1,4 @@
+import 'package:eccomerceapp/theme/color.dart';
 import 'package:flutter/material.dart';
 
 class BannerComp extends StatelessWidget {
@@ -14,7 +15,7 @@ class BannerComp extends StatelessWidget {
         vertical: 15,
       ),
       decoration: BoxDecoration(
-        color: Color(0xFF4A3298),
+        color: primaryColor,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text.rich(
